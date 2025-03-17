@@ -44,7 +44,7 @@ RUN bundle install && \
 COPY . .
 
 # Install Node.js and npm for Vite
-RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - && \
+RUN curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - && \
     apt-get install -y nodejs
 
 # Install JavaScript dependencies
