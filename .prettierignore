@@ -1,0 +1,3 @@
+app/javascript/components/ui/*
+app/javascript/routes.js
+app/javascript/routes.d.ts

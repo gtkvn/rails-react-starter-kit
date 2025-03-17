@@ -1,0 +1,33 @@
+<!-- Greeting -->
+<h1>Hello!</h1>
+<!-- Intro Lines -->
+<p>Please click the button below to verify your email address.</p>
+<!-- Action Button -->
+<table class="action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+  <tr>
+    <td align="center">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+          <td align="center">
+            <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+              <tr>
+                <td>
+                  <a href="<%= @verification_url %>" class="button button-primary" target="_blank" rel="noopener">Verify Email Address</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- Outro Lines -->
+<p>If you did not create an account, no further action is required.</p>
+<!-- Salutation -->
+<p>Regards,<br>
+  <%= ENV.fetch("APP_NAME", "Rails") %></p>
+<!-- Subcopy -->
+<% content_for(:subcopy) do %>
+  <p>If you're having trouble clicking the "Verify Email Address" button, copy and paste the URL below into your web browser: <span class="break-all"><%= link_to @verification_url, @verification_url %><span></p>
+    <% end %>
