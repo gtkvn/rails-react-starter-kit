@@ -7,9 +7,22 @@
 
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
+# First stage: Build assets with Node.js & Vite
+FROM node:23 AS vite-builder
+
+# Set working directory
+WORKDIR /rails
+
+# Copy package files and install dependencies
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copy source files and build assets
+COPY . .
+RUN npm run build
+
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
 ARG RUBY_VERSION=3.4.1
-ARG NODE_VERSION=23
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 # Rails app lives here
@@ -32,10 +45,6 @@ FROM base AS build
 # Install packages needed to build gems
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git pkg-config && \
-    curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g npm && \
-    npm install -D vite && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install application gems
@@ -47,11 +56,14 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
+# Copy prebuilt Vite assets from the first stage
+COPY --from=vite-builder /rails/public ./public
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+# RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
 
