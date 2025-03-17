@@ -32,7 +32,7 @@ FROM base AS build
 # Install packages needed to build gems
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git pkg-config && \
-    curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - && && \
+    curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g npm && \
     npm install -D vite && \
