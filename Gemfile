@@ -66,7 +66,7 @@ gem 'dotenv', '~> 3.1'
 gem 'bcrypt', '~> 3.1'
 gem 'js-routes', '~> 2.3'
 
-gem 'tailwindcss-rails', '~> 4.0'
+gem 'tailwindcss-rails', '~> 4.2'
 
 gem 'factory_bot_rails', '~> 6.4', groups: [ :development, :test ]
 gem 'faker', '~> 3.5', groups: [ :development, :test ]
